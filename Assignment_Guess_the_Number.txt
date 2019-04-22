@@ -1,0 +1,96 @@
+#####Guess the number- Mini Project####
+
+# template for "Guess the number" mini-project
+# input will come from buttons and an input field
+# all output for the game will be printed in the console
+
+import simplegui
+import random
+import math
+
+#global variables
+num_of_guess = 0
+sec_num = 0
+num_range = 100
+
+# helper function to start and restart the game
+def new_game():
+    # initialize global variables used in your code here
+    global num_of_guess
+    global sec_num
+    global num_range
+
+    sec_num = random.randint(1,num_range)
+    
+    if num_range == 100:
+        num_of_guess = 7
+    elif num_range == 1000:
+        num_of_guess = 10
+    else:
+        return 0
+
+
+# define event handlers for control panel
+def range100():
+    global num_range
+
+    # button that changes the range to [0,100) and starts a new game 
+    num_range = 100
+    new_game()
+    
+def range1000():
+    global num_range
+    
+    # button that changes the range to [0,1000) and starts a new game     
+    num_range = 1000
+    new_game()
+    
+def input_guess(guess):
+    # main game logic goes here	
+    global sec_num,num_of_guess
+    won = False
+    guess = int(guess)
+    print "The guess number is:-", guess
+    num_of_guess -= 1
+    print "Number of guess left:-", num_of_guess
+    
+    # for check
+    print "The secret number is:-", sec_num
+    
+    
+    if guess < sec_num:
+        result =  "Number is in lower range"
+        
+    elif guess > sec_num:
+        result = "Number is in higher range"
+        
+    elif guess == sec_num:
+        won = True
+        
+    if won == True:
+        print " You make a correct guess"
+        new_game()
+    elif num_of_guess == 0:
+        
+        print " Sorry. your chance is over"
+        new_game()
+    else:
+        print result
+
+    
+# create frame
+f = simplegui.create_frame('guess', 300,300)
+
+# Add button
+f.add_button("Range is [0,100)",range100)
+f.add_button("Range is [0,1000)",range1000)
+
+# register event handlers for control elements and start frame
+f.add_input("Enter your guess", input_guess, 100)
+f.start()
+
+# call new_game 
+new_game()
+
+
+# always remember to check your completed program against the grading rubric
